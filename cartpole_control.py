@@ -236,7 +236,7 @@ plt.plot(list(range(len(episode_scores))),episode_scores)
 plt.title('Testing Performance')
 plt.xlabel('Episode')
 plt.ylabel('Score')
-plt.savefig('./basic_nn/basic_nn_keras_test.jpg')
+plt.savefig('./basic_nn/control.jpg')
 plt.clf()
 
 
