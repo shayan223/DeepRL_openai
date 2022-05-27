@@ -50,19 +50,111 @@ print("TRAINING MODEL")
 #nn_train(display=False)
 print("#######################")
 print("TESTING MODEL")
-#nn_test(adversarial=False,display=False)
+testA = nn_test(adversarial=False,display=False)
+
+plt.plot(list(range(len(testA))),testA)
+plt.title('NN Policy')
+plt.xlabel('Episode')
+plt.ylabel('Score')
+plt.savefig('./results/NN_test.jpg')
+plt.clf()
+
+
 print("#######################")
 print("Testing Model Against Perturbations")
-#nn_test(adversarial=True,display=False)
+
+print("LINEAR PERTURBATIONS")
+print("PERTURBATION STRENGTH: 0.01")
+testA = nn_test(test_number=1,adversarial=True,display=False,perturbation_strength=0.01,linear_p=True)
+print("PERTURBATION STRENGTH: 0.1")
+testB = nn_test(test_number=2,adversarial=True,display=False,perturbation_strength=0.1,linear_p=True)
+print("PERTURBATION STRENGTH: 0.5")
+testC = nn_test(test_number=3,adversarial=True,display=False,perturbation_strength=0.5,linear_p=True)
+print("PERTURBATION STRENGTH: 1 (Double)")
+testD = nn_test(test_number=4,adversarial=True,display=False,perturbation_strength=1,linear_p=True)
+print("PERTURBATION STRENGTH: 2 (Triple)")
+testE = nn_test(test_number=5,adversarial=True,display=False,perturbation_strength=2,linear_p=True)
+
+plt.plot(list(range(len(testA))),testA, label='p=0.01')
+plt.plot(list(range(len(testB))),testB, label='p=0.1')
+plt.plot(list(range(len(testC))),testC, label='p=0.5')
+plt.plot(list(range(len(testD))),testD, label='p=1')
+plt.plot(list(range(len(testE))),testE, label='p=2')
+plt.legend(title='Severity')
+plt.title('NN Policy on Linear Perturbations')
+plt.xlabel('Episode')
+plt.ylabel('Score')
+plt.savefig('./results/NN_linear_pururbations.jpg')
+plt.clf()
+
+
+print("NOISY PERTURBATIONS")
+print("PERTURBATION STRENGTH: 0.01")
+testA = nn_test(test_number=1,adversarial=True,display=False,perturbation_strength=0.01,linear_p=False)
+print("PERTURBATION STRENGTH: 0.1")
+testB = nn_test(test_number=2,adversarial=True,display=False,perturbation_strength=0.1,linear_p=False)
+print("PERTURBATION STRENGTH: 0.5")
+testC = nn_test(test_number=3,adversarial=True,display=False,perturbation_strength=0.5,linear_p=False)
+print("PERTURBATION STRENGTH: 1 (Double)")
+testD = nn_test(test_number=4,adversarial=True,display=False,perturbation_strength=1,linear_p=False)
+print("PERTURBATION STRENGTH: 2 (Triple)")
+testE = nn_test(test_number=5,adversarial=True,display=False,perturbation_strength=2,linear_p=False)
+
+plt.plot(list(range(len(testA))),testA, label='p=0.01')
+plt.plot(list(range(len(testB))),testB, label='p=0.1')
+plt.plot(list(range(len(testC))),testC, label='p=0.5')
+plt.plot(list(range(len(testD))),testD, label='p=1')
+plt.plot(list(range(len(testE))),testE, label='p=2')
+plt.legend(title='Severity')
+plt.xlabel('Episode')
+plt.ylabel('Score')
+plt.title('NN Policy on Noisy Perturbations, Noise STD: .05')
+plt.savefig('./results/NN_noisy_pururbations.jpg')
+plt.clf()
+
+
+
+print("NOISY PERTURBATIONS HIGH STD")
+print("PERTURBATION STRENGTH: 0.01")
+testA = nn_test(test_number=1,adversarial=True,display=False,perturbation_strength=0.01,linear_p=False,noise_std=.2)
+print("PERTURBATION STRENGTH: 0.1")
+testB = nn_test(test_number=2,adversarial=True,display=False,perturbation_strength=0.1,linear_p=False,noise_std=.2)
+print("PERTURBATION STRENGTH: 0.5")
+testC = nn_test(test_number=3,adversarial=True,display=False,perturbation_strength=0.5,linear_p=False,noise_std=.2)
+print("PERTURBATION STRENGTH: 1 (Double)")
+testD = nn_test(test_number=4,adversarial=True,display=False,perturbation_strength=1,linear_p=False,noise_std=.2)
+print("PERTURBATION STRENGTH: 2 (Triple)")
+testE = nn_test(test_number=5,adversarial=True,display=False,perturbation_strength=2,linear_p=False,noise_std=.2)
+
+plt.plot(list(range(len(testA))),testA, label='p=0.01')
+plt.plot(list(range(len(testB))),testB, label='p=0.1')
+plt.plot(list(range(len(testC))),testC, label='p=0.5')
+plt.plot(list(range(len(testD))),testD, label='p=1')
+plt.plot(list(range(len(testE))),testE, label='p=2')
+plt.legend(title='Severity')
+plt.xlabel('Episode')
+plt.ylabel('Score')
+plt.title('NN Policy on VERY Noisy Perturbations, Noise STD: .2')
+plt.savefig('./results/NN_SUPERnoisy_pururbations.jpg')
+plt.clf()
+
+############################################################################
+################# Control Model Experiments ################################
+############################################################################
+
+
+
 print("#######################")
 print("Running Control Test")
-#cartpole_control(adversarial=False,display=False)
+testA = cartpole_control(test_number=0,adversarial=False,display=False)
 
+plt.plot(list(range(len(testA))),testA)
+plt.title('Control Policy')
+plt.xlabel('Episode')
+plt.ylabel('Score')
+plt.savefig('./results/control_test.jpg')
+plt.clf()
 
-
-
-
-'''
 print("#######################")
 print("Testing Control on Perturbations")
 
@@ -85,6 +177,8 @@ plt.plot(list(range(len(testD))),testD, label='p=1')
 plt.plot(list(range(len(testE))),testE, label='p=2')
 plt.legend(title='Severity')
 plt.title('Control Policy on Linear Perturbations')
+plt.xlabel('Episode')
+plt.ylabel('Score')
 plt.savefig('./results/control_linear_pururbations.jpg')
 plt.clf()
 
@@ -107,9 +201,11 @@ plt.plot(list(range(len(testC))),testC, label='p=0.5')
 plt.plot(list(range(len(testD))),testD, label='p=1')
 plt.plot(list(range(len(testE))),testE, label='p=2')
 plt.legend(title='Severity')
+plt.xlabel('Episode')
+plt.ylabel('Score')
 plt.title('Control Policy on Noisy Perturbations, Noise STD: .05')
 plt.savefig('./results/control_noisy_pururbations.jpg')
 plt.clf()
-'''
+
 print("########### Tests Finished ############")
 

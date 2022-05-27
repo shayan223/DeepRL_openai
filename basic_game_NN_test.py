@@ -14,7 +14,15 @@ import matplotlib.pyplot as plt
 import seaborn as sb
 
 
-def nn_test(adversarial=False,display=False):
+def nn_test(test_number=1,adversarial=False,display=False,perturbation_strength=0.01,linear_p=True,noise_std=.05):
+
+    def plus_or_minus():
+        return 1 if random.random() < 0.5 else -1
+
+    def create_noise(input_tensor,std=.05):
+        noise = tf.random.normal(shape=tf.shape(input_tensor), mean=0.0, stddev=std, dtype=tf.float32) 
+        return noise
+
     def discounted_cumulative_sums(x, discount):
         # Discounted cumulative sums of vectors for computing rewards-to-go and advantage estimates
         return scipy.signal.lfilter([1], [1, float(-discount)], x[::-1], axis=0)[::-1]
@@ -149,7 +157,7 @@ def nn_test(adversarial=False,display=False):
 
     # Hyperparameters of the PPO algorithm
     steps_per_epoch = 4000
-    epochs = 3
+    epochs = 10
     gamma = 0.99
     clip_ratio = 0.2
     policy_learning_rate = 3e-4
@@ -210,9 +218,16 @@ def nn_test(adversarial=False,display=False):
         for t in range(steps_per_epoch):
             if render:
                 env.render()
-
             # Get the logits, action, and take one step in the environment
             observation = observation.reshape(1, -1)
+
+            if(adversarial == True):
+                if(linear_p == True):
+                    change = observation*perturbation_strength
+                else:
+                    change = create_noise(observation,std=noise_std)*perturbation_strength
+                observation = tf.math.add(observation,change)
+
             logits, action = sample_action(observation)
             observation_new, reward, done, _ = env.step(action[0].numpy())
             episode_return += reward
@@ -256,6 +271,7 @@ def nn_test(adversarial=False,display=False):
         episode_scores.append(sum_return / num_episodes)
         survival_lengths.append(sum_length / num_episodes)
 
+    '''
     plt.plot(list(range(len(episode_scores))),episode_scores)
     #plt.plot(survival_lengths,list(range(len(survival_lengths))))
     plt.title('Testing Performance')
@@ -263,5 +279,6 @@ def nn_test(adversarial=False,display=False):
     plt.ylabel('Score')
     plt.savefig('./basic_nn/basic_nn_keras.jpg')
     plt.clf()
-
+    '''
+    return episode_scores
 
