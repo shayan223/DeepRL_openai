@@ -207,7 +207,7 @@ for epoch in range(epochs):
         # Get the logits, action, and take one step in the environment
         #observation = observation.reshape(1, -1)
         action = theta_omega_policy(observation)
-        observation_new, reward, done, _ = env.step(action[0].numpy())
+        observation_new, reward, done, _ = env.step(action)
         episode_return += reward
         episode_length += 1
 
