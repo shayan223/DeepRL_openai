@@ -16,9 +16,10 @@ import torch.nn.functional as F
 import torchvision.transforms as T
 
 from model import ReplayMemory, DQN
-from basic_game import basic_game
-from basic_game import test_model
-from basic_game import test_model_adversarial
+from basic_game_cnn import basic_game
+from basic_game_cnn import test_model
+from basic_game_cnn import test_model_adversarial
+
 '''
 
 
